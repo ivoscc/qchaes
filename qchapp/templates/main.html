@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} Que cha es? - Definiciones de jerga callejera{% endblock %}
+{% block extra_style %}
+.hero-unit {background:#A1AC88;height:auto;padding-top:25px;padding-bottom:15px;}
+.pagination a{padding-left:12px;color:i}
+.pagination a:hover{color:#fff;background-color:#464D70;}
+.modal {width:800px;word-wrap:break-word;background:#f5f5f5;}
+.modal-body {background:#fff;}
+{% endblock %}
+{% block extra_scripts %}
+$(document).ready(function() {
+    var a = $('.row p');
+    $.each(a,function(i,b){
+      if ($(b).html() != " "){
+        $(b).html($(b).html().replace(/[\*]{1}([a-zA-Z0-9_\sáéíóúñÁÉÍÓÚÑ]+)[\*]{1}/g,"<a href='/$1' class='interlink'>$1</a>"))
+      }
+    });
+});
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero-unit">
+    <br>
+        <h1>Que cha' es?</h1>
+        <p>Definiciones de jerga callejera y palabras que ning&uacute;n diccionario decente se atrever&iacute;a a decirte.</p>
+        <form action='/buscar/0/' method='get'>
+        <input type='search' name='b' class='span4'> &nbsp;
+        <input type='submit' class="btn large primary" value='Buscar'>
+        </form>
+    </div>
+
+    <div class="pagination"><ul>
+        {% for i in letters %}
+        <li><a href="/letra/{{i}}/0/">{{ i }}</a></li>
+        {% endfor %}
+    </ul></div>
+
+    <div class="row" style='min-height:200px;'>
+        <div class="span6">
+            <h2 style='overflow:hidden;'>{{ samples.0.name|capitalize }}</h2>
+            <p> {{ samples.0.definition.content|capitalize }}</p>
+            <p><a class="btn" href="/{{ samples.0.name }}">Ver definiciones</a></p>
+        </div>
+        <div class="span5">
+            <h2 style='overflow:hidden;'>{{ samples.1.name|capitalize }}</h2>
+            <p> {{ samples.1.definition.content|capitalize }}</p>
+            <p><a class="btn" href="/{{ samples.1.name }}">Ver definiciones</a></p>
+        </div>
+        <div class="span5">
+            <h2 style='overflow:hidden;'>{{ samples.2.name|capitalize }}</h2>
+            <p> {{ samples.2.definition.content|capitalize }}</p>
+            <p><a class="btn" href="/{{ samples.2.name }}">Ver definiciones</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Que cha es?{% endblock %}
+{% block extra_style %}
+.modal {width: 600px;word-wrap:break-word;}
+.modal-footer {padding-top:5px;padding-bottom:10px;margin-bottom:10px;background:#fff;height:5px;}
+pre {margin:0;}
+{% endblock %}
+
+{% block content %}
+<br><br>
+<br><br>
+<div class='row'>
+
+    <div class='span8 offset2'>
+    <h1>Error 404: Oh No! No pudimos encontrar la p&aacute;gina que buscabas...</h1>
+    <h2>
+    ... pero no te preocupes, hemos enviado un grupo de topos a buscarla.<br><br>&nbsp;&nbsp;&nbsp;<a href='/'>Click Aqu&iacute</a> mientras esperas.
+    </h2>
+    </div>
+    <div class='span5'>
+    <img src='/static/images/facepalm.jpg'>
+    </div>
+</div>
+
+
+{% endblock %}

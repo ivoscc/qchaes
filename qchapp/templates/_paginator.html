@@ -1,0 +1,20 @@
+{% macro make_paginator(paginator) %}
+<div class="pagination">
+    <ul>
+        {% if paginator.has_previous %}
+        <li class="prev"><a href="../{{paginator.current - 1}}">&lt; Anterior</a> </li>
+        {% else %}
+        <li class="prev disabled"><a href="">&lt; Anterior</a></li>
+        {% endif %}
+        {% for i in paginator.pages %}
+        <li {% if paginator.current == i %}class='active'{% endif%}><a href="../{{ i }}">{{ i }}</a></li>
+        {% endfor %}
+        {% if paginator.has_next %}
+        <li class="next"><a href="../{{paginator.current + 1}}">Siguiente &gt;</a></li>
+        {% else %}
+        <li class="next disabled"><a href="">Siguiente &gt;</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endmacro %}
+

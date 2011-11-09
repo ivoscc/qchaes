@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Resultados{% endblock %}
+{% block extra_style %}
+.modal{width:600px;word-wrap:break-word;}
+.modal-footer{padding-top:5px;padding-bottom:10px;margin-bottom:10px;background:#fff;height:5px;}
+{% endblock %}
+{% block extra_scripts %}
+$(document).ready(function() {
+    var a = $('.modal-body');
+    $.each(a,function(i,b){
+      if ($(b).html() != " "){
+        $(b).html($(b).html().replace(/[\*]{1}([a-zA-Z0-9_\sáéíóúñÁÉÍÓÚÑ]+)[\*]{1}/g,"<a href='/$1' class='interlink'>$1</a>"))
+      }
+    });
+});
+{% endblock %}
+{% block content %}
+<div class='row'>
+    <div class='span12 offset4'>
+    {% if results %}
+    <h1>Resultados:</h1>
+        {% from "_definition.html" import render_definition %}
+        {% for result in results %}
+            {{ render_definition(result.get_hero(),result.name,'result')}}<br>
+        {% endfor %}
+
+        {% from "_paginator.html" import make_paginator %}
+        {{ make_paginator(paginator)}}
+
+    {% else %}
+        <h1>
+        No se encontraron resultados para la b&uacute;squeda
+        <br><small><a href='/'>Regresar</a></small>
+        </h1>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

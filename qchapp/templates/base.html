@@ -1,0 +1,81 @@
+<!doctype html>
+<head>
+<meta property="og:image" content="http://www.qcha.es/static/images/pup.png" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="qcha.es" />
+{% block extra_head %}
+{% endblock %}
+<link rel="image_src" href="http://www.qcha.es/static/images/pup.png" />
+<link rel='stylesheet' href="/static/bootstrap.css" TYPE="text/css" />
+<title>{% block title %}{% endblock %}</title>
+<style>
+html,body {background-color:transparent;}
+body {background-image:url('/static/images/texture/5.png');}
+.interlink {background-color:#CEDEF4;padding:1px 3px;color:#000;}
+.interlink:hover{background-color:#AEBED4;text-decoration:none;}
+{% block extra_style %}
+{% endblock %}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script>
+$(document).ready(function() {
+	$( "#topsearch" ).autocomplete({
+		delay: 200,
+		minLength: 1,
+		source: "/buscar/top/",
+	});
+});
+</script>
+<script type="text/javascript"> 
+$(document).ready(function() {
+    $('#topsearch').focus(function() {
+        $(this).val('');
+    });
+    $('#topsearch').bind('focusout',function() {
+        $(this).val('buscar...');
+    });
+});
+
+{% block extra_scripts %}
+{% endblock %}
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26671464-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=163782250373006";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<a id="zoom31" href="https://www.facebook.com/pages/Q-cha-es/238821336174244" style="display:scroll;position:fixed;bottom:110px;right:10px;"> <img src="/static/images/facebook.png" border="0"></a>
+<a id="zoom31" href="http://twitter.com/#!/qchaes" style="display:scroll;position:fixed;bottom:75px;right:10px;"> <img src="/static/images/twitter.png" border="0"></a>
+
+
+{% include 'header.html' %}
+<br><br><br>
+
+{% block content %}
+{% endblock %}
+
+{% include 'footer.html' %}
+</body>

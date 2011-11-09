@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Q cha es {{word}}?{% endblock %}
+{% block extra_style %}
+.modal{width:800px;word-wrap:break-word;background:#f5f5f5;}
+.modal-body{background:#fff;}
+{% endblock%}
+{% block extra_scripts %}
+var RecaptchaOptions={theme:'white',lang:'es',};
+$(document).ready(function() {
+$('#definition').focus(function() {
+    $('img.helper').toggle();
+});
+$('#definition').bind('focusout',function() {
+    $('img.helper').toggle();
+});
+});
+{% endblock%}
+
+{% block content %}
+<div class='row'>
+    <div class='span12 offset4'>
+    <h1>
+    Escribe tu definici&oacute;n
+    </h1>
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1">
+    <div class="modal-body">
+    <form action='' method='post'>
+        <fieldset>
+          <div class="clearfix">
+            <label for="palabra">Palabra</label>
+            <div class="input">
+                {{ form.entry|safe }}
+                {% if form.entry.errors %}
+                    {% for error in form.entry.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </div>
+          </div>
+
+          <img class='helper' style='position:absolute;right:0;display:none;' src='/static/images/spiderman.png' />
+
+          <div class="clearfix">
+            <label for="definicion">Definici&oacute;n</label>
+            <div class="input">
+                {{ form.definition(class="xlarge",rows="5")|safe }}
+                {% if form.definition.errors %}
+                    {% for error in form.definition.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <label for="example">Ejemplo (opcional):</label>
+            <div class="input">
+                {{ form.example(class="xlarge",rows="5")|safe }}
+
+                {% if form.example.errors %}
+                    {% for error in form.example.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </div>
+          </div>
+
+          <div class='captcha' style='margin-left:150px;'>
+              <script type="text/javascript"
+               src="https://www.google.com/recaptcha/api/challenge?k=6LdTIMkSAAAAABm7_FJRnu7zkJafm_aDvf8m2jR2">
+              </script>
+
+          <noscript>
+            <iframe src="https://www.google.com/recaptcha/api/noscript?k=6LdTIMkSAAAAABm7_FJRnu7zkJafm_aDvf8m2jR2" 
+            height="300" width="500" frameborder="1"> </iframe><br>
+            <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+            </textarea>
+            <input type="hidden" name="recaptcha_response_field"
+            value="manual_challenge">
+          </noscript>
+            {% if form.captcha.errors %}
+                Validaci&oacute;n incorrecta.
+            {% endif %}
+          </div>
+        </div>
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Guardar">
+        </div>
+        </fieldset>
+  </form>
+  </div>
+</div>
+</div>
+{% endblock%}

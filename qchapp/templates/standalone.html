@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+<meta property="og:title" content="{{ entry_name|capitalize }}"/>
+<meta property="og:url" content="http://www.qcha.es/def/{{ definition.id }}/"/>
+{% endblock %}
+{% block title %}Que cha es {{ entry_name|capitalize }}?{% endblock %}
+{% block extra_style %}
+.modal {width: 600px;word-wrap:break-word;}
+.modal-footer {padding-top:5px;padding-bottom:10px;margin-bottom:10px;background:#fff;height:5px;}
+pre {margin:0;}
+{% endblock %}
+
+{% block extra_scripts %}
+$(document).ready(function() {
+    var a = $('.modal-body');
+    $.each(a,function(i,b){
+      if ($(b).html() != " "){
+        $(b).html($(b).html().replace(/[\*]{1}([a-zA-Z0-9_\sáéíóúñÁÉÍÓÚÑ]+)[\*]{1}/g,"<a href='/$1' class='interlink'>$1</a>"))
+      }
+    });
+});
+{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <div class='span12 offset4'>
+    <h1>
+    Que cha' es <i>{{ entry_name|capitalize }}</i>?
+    <small> - <a href='/definir/{{ entry_name }}'>Da una definici&oacute;n</a></small>
+    </h1>
+    {% from "_definition.html" import render_definition %}
+        {{ render_definition(definition,entry_name,'result') }}<br>
+    <a name='comments'></a>
+    <div style='margin-left:50px;' class="fb-comments" data-href="www.qcha.es/def/{{ definition.id }}/" data-num-posts="2" data-width="600"></div>
+    </div>
+</div>
+{% endblock %}
