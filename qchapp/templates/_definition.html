@@ -3,22 +3,40 @@
     <div class="modal-header">
         <span><b><a href='/def/{{ def.id }}/'>{{ entry|capitalize }}</a></b></span>
         <span align='right' style='position:absolute;right:0;margin-right:20px;'>
-        {{ def.points }} {% if def.points == 1%} punto {% else %} puntos {% endif%}
+        {{ def.points }} {% if def.points == 1 or def.points == -1 %} punto {% else %} puntos {% endif%}
         <a href='/votar/mas/{{ def.id }}/'><img src='/static/images/pro.png' height='15'/></a>
         <a href='/votar/menos/{{ def.id }}/'><img src='/static/images/contra.png' height='15' /></a>
         </span>
     </div>
     <div class="modal-body">
+      {# Word Def #}
         <p>{{ def.content }}</p>
-        {% if def.example %}<h3><pre>{{ def.example }}</pre></h3>{% endif %}
+      {# Here are the examples #}
+      {# check if - is needed for whitespace control#}
+        {% if def.examples %}
+            <h3>
+            {% for example in def.examples %}
+               
+                {% if loop.first %} {% else %}<br>{% endif %}
+                <span align='right' style='position:absolute;right:0;margin-right:20px;'>
+                {{ example.points }} {% if example.points == 1 or example.points == -1 %} punto {% else %} puntos {% endif%}
+                <a href='/votar/mas/{{ def.id }}/'><img src='/static/images/pro.png' height='15'/></a>
+                <a href='/votar/menos/{{ def.id }}/'><img src='/static/images/contra.png' height='15' /></a>
+                </span> 
+
+                <pre>{{ example.body }}</pre>
+                
+            {% endfor %}
+            </h3>
+        {% endif %}
     </div>
     <div class="modal-footer">
 <span align='right' style='position:absolute;right:0;margin-right:20px;'>
         {% if type == 'result' %}
-	<a style='align:left;' href='/{{entry}}'>Ver m&aacute;s definiciones</a>
-	{% elif type == 'word' %}
-	<a style='align:left;' href='/def/{{def.id}}/#comments'>Comentarios</a>
-	{% endif %}
+        <a style='align:left;' href='/{{entry}}'>Ver m&aacute;s definiciones</a>
+        {% elif type == 'word' %}
+        <a style='align:left;' href='/def/{{def.id}}/#comments'>Comentarios</a>
+        {% endif %}
         </span>
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://qcha.es/def/{{ def.id }}/" data-count="none">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 <iframe src="//www.facebook.com/plugins/like.php?href=www.qcha.es/def/{{ def.id }}/&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=163782250373006" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe>

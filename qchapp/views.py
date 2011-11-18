@@ -26,9 +26,12 @@ def main():
 
     return render_template('main.html',letters=[x for x in uppercase],samples=samples)
 
-
+#View for word
 @app.route('/<word>')
 def qchar(word):
+  """
+  
+  """
     slug = slugEncode(word).lower()
     try:
         entry = Entry.objects.get(slug = slug)
@@ -59,7 +62,7 @@ def define(slug):
         return redirect(url_for('qchar',word=slug))
     return render_template('new_definition.html',form=form)
 
-
+#Resultados por letra
 @app.route('/letra/<letra>/<int:page>/')
 def by_letter(letra='A',page=0):
     if len (letra) != 1:
@@ -147,3 +150,7 @@ def page_not_found(error):
 @app.errorhandler(500)
 def page_not_found(error):
         return render_template('404.html'), 500
+        
+if __name__ == "__main__":
+  pass
+  #blahtests

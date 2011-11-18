@@ -1,6 +1,6 @@
-Flask
-mongoengine
-translitcodec
+Flask: A Web Microframewrok
+mongoengine: A NoSQL database
+translitcodec: A Unicode to 8-bit charset transliteration codec
 WTForms
 Flask-WTF
 wtforms-recaptcha
