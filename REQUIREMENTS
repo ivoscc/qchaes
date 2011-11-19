@@ -1,6 +1,6 @@
 Flask: A Web Microframewrok
 mongoengine: A NoSQL database
 translitcodec: A Unicode to 8-bit charset transliteration codec
-WTForms
-Flask-WTF
-wtforms-recaptcha
+WTForms : a forms validation and rendering library for python web development
+Flask-WTF : Integration of WTForms with Flask
+wtforms-recaptcha : is a convenient field for WTForms that transparently handles reCaptcha display and validation via corresponding widget and validator classes.

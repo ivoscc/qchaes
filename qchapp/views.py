@@ -29,9 +29,9 @@ def main():
 #View for word
 @app.route('/<word>')
 def qchar(word):
-  """
-  
-  """
+    """
+      
+    """
     slug = slugEncode(word).lower()
     try:
         entry = Entry.objects.get(slug = slug)
