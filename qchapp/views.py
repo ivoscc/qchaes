@@ -17,12 +17,9 @@ import simplejson
 def main():
     samples = []
 
-    e = Entry.objects.get(slug=Entry.get_random()['slug'])
-    samples.append({'name':e.name,'definition':e.get_hero()})
-    e = Entry.objects.get(slug=Entry.get_random()['slug'])
-    samples.append({'name':e.name,'definition':e.get_hero()})
-    e = Entry.objects.get(slug=Entry.get_random()['slug'])
-    samples.append({'name':e.name,'definition':e.get_hero()})
+    for i in range(3):
+        e = Entry.objects.get(slug=Entry.get_random()['slug'])
+        samples.append({'name':e.name,'definition':e.get_hero()})
 
     return render_template('main.html',letters=[x for x in uppercase],samples=samples)
 
