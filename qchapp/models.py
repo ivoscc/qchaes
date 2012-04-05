@@ -1,12 +1,23 @@
-from mongoengine import *
+# -*- coding: utf-8 -*-
+
 import re
+from mongoengine import connect, EmbeddedDocument, Document, IntField, \
+        StringField, ListField, EmbeddedDocumentField, FloatField, \
+        ReferenceField, CASCADE
 from operator import attrgetter
 from random import random
 from utils import slugEncode
+import settings
 
-#connect('qchapp',username='',password='',host='',port=10094)
-#connect('qchapp',username='qcha',password='qchaestapasando',host='dbh85.mongolab.com:27857/qchaes',port=10094)
-connect('qchaes',username='qcha',password='qchaestapasando',host='dbh85.mongolab.com',port=27857)
+
+connect(
+        settings.DB_NAME,
+        username=settings.DB_USER,
+        password=settings.DB_PASSWORD,
+        host=settings.DB_HOST,
+        port=settings.DB_PORT,
+    )
+
 
 class Example(EmbeddedDocument):
     body = StringField(max_length=300)
@@ -18,36 +29,35 @@ class NewDefinition(Document):
     examples debe ser una a una 'estructura'
     """
     points = IntField(default=0)
-    content = StringField(min_length=15,max_length=300)
-    examples_t = ListField( EmbeddedDocumentField(Example) )
-    
+    content = StringField(min_length=15, max_length=300)
+    examples_t = ListField(EmbeddedDocumentField(Example))
 
     def __repr__(self):
-        return u'Def: %r' % (self.content[:15]+"...")
-       
+        return u'Def: %r' % (self.content[:15] + "...")
+
+
 class Definition(Document):
     """
     Antigua_def
     """
     points = IntField(default=0)
-    content = StringField(min_length=15,max_length=300)
+    content = StringField(min_length=15, max_length=300)
     example = StringField(max_length=300)
-    examples = ListField( EmbeddedDocumentField(Example) )
+    examples = ListField(EmbeddedDocumentField(Example))
 
     def __repr__(self):
-        return u'Def: %r' % (self.content[:15]+"...")
+        return u'Def: %r' % (self.content[:15] + "...")
 
 
 class Entry(Document):
-    name = StringField(unique=True,min_length=3,max_length=100)
-    slug = StringField(unique=True,min_length=3,max_length=100)
+    name = StringField(unique=True, min_length=3, max_length=100)
+    slug = StringField(unique=True, min_length=3, max_length=100)
     first_letter = StringField(max_length=1)
-    definitions = ListField(ReferenceField(Definition,reverse_delete_rule=CASCADE))
+    definitions = ListField(ReferenceField(Definition, reverse_delete_rule=CASCADE))
     keywords = ListField(StringField())
-    random = FloatField(min_value=0,max_value=1)
+    random = FloatField(min_value=0, max_value=1)
 
-
-    #Use this method instead of attribute to get sorted definition list
+    # Use this method instead of attribute to get sorted definition list
     def get_definitions(self):
         return sorted(self.definitions,\
                       key=attrgetter('points'),\
@@ -65,22 +75,20 @@ class Entry(Document):
         self.first_letter = self.slug[0].upper()
         self.random = random()
         keywords = slug.split('_')
-        [keywords.pop(keywords.index(x)) for x in [i for i in keywords if len(i)<3]]
+        [keywords.pop(keywords.index(x)) for x in [i for i in keywords if len(i) < 3]]
         self.keywords = keywords
         super(Entry, self).save(*args, **kwargs)
 
     def __repr__(self):
         return u'Entry: %r' % (self.slug)
 
-
-
     @staticmethod
     def search(query):
-        query = re.sub(r'\W+',' ',query)
+        query = re.sub(r'\W+', ' ', query)
         lista = query.split()
-        lista = [i+"|" for i in lista if len(i)>2]
+        lista = [i + "|" for i in lista if len(i) > 2]
         terms = ''.join(lista)[:-1]
-        if len(terms)>0:
+        if len(terms) > 0:
             code = """
             r = [];
             var result = db.entry.find({keywords: /(%s)/i},{_id:true});
@@ -89,7 +97,7 @@ class Entry(Document):
             }
             return r;
             """ % terms
-            results =  Entry.objects.exec_js(code)
+            results = Entry.objects.exec_js(code)
             return [str(i) for i in results]
         else:
             return []
@@ -118,9 +126,3 @@ class Entry(Document):
         return result;
         """
         return Entry.objects.exec_js(code)
- 
-if __name__ == "__main__":
-  
-  for item in Definition.objects:
-    print item.example
-  

@@ -1,14 +1,17 @@
-#-*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
+
 import re
-from wtforms import Form, BooleanField, TextField,TextAreaField,validators,ValidationError
+from wtforms import Form, BooleanField, TextField, TextAreaField, validators, ValidationError
 from wtfrecaptcha.fields import RecaptchaField
 
 RECAPTCHA_PUB_KEY = ""
 RECAPTCHA_PRIV_KEY = ""
 
+
 def validate_entry(form, field):
     if not re.match(ur"^[a-zA-Z0-9\s_-áéíóúñÁÉÍÓÚÑ]+$", field.data):
         raise ValidationError("Solo letras, numeros y espacios por favor.")
+
 
 class DefinitionForm(Form):
     captcha = RecaptchaField(
@@ -23,7 +26,6 @@ class DefinitionForm(Form):
                               min=3,
                               max=50,)
                       ])
-
 
     definition = TextAreaField('Definici&oacute;n*',
                                [validators.Length(

@@ -1,0 +1,7 @@
+Flask
+mongoengine
+WTForms 
+Flask-WTF 
+wtforms-recaptcha 
+simplejson
+translitcodec
